@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber-Mirage</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-title">
+      <span>🛡️</span>
+      <span>Cyber-Mirage
+      </span>
+    </div>
+    <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <p class="card-label">إجمالي المحاولات</p>
+      <p class="card-value" id="total">--</p>
+    </div>
+    <div class="card">
+      <p class="card-label">تكرارًا IP أكثر</p>
+      <p class="card-value" id="topip">--</p>
+    </div>
+  </div>
+
+  <div class="alert" id="alert" style="display:none;">
+    ⚠️ نشاط مرتفع من IP واحد خلال آخر 10 دقائق
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>عنوان IP</th>
+        <th>اسم المستخدم</th>
+        <th>الوقت</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

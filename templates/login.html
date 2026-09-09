@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول - Cyber Mirage</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Cyber Mirage 🛡️</h2>
+    <p>تسجيل الدخول للوحة التحكم</p>
+
+    {% if error %}
+      <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+      <input type="text" name="username" placeholder="اسم المستخدم" required>
+      <br><br>
+      <input type="password" name="password" placeholder="كلمة المرور" required>
+      <br><br>
+      <button type="submit">دخول</button>
+    </form>
+  </div>
+
+</body>
+</html>
