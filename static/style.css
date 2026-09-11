@@ -88,3 +88,4 @@ body {
 .table tr:not(:last-child) td {
   border-bottom: 1px solid #2a2a2a;
 }
+body, input, button, p, h2 { font-size: 18px; }
