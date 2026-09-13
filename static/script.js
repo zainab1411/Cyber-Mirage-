@@ -25,6 +25,23 @@ function renderData(data) {
     tr.innerHTML = `<td>${a.ip}</td><td>${a.username}</td><td>${a.time}</td>`;
     rows.appendChild(tr);
   });
+  const countryLabels = data.attacks_by_country.map(c => c.country);
+  const countryValues = data.attacks_by_country.map(c => c.percentage);
+
+  if (window.countryChartInstance) {
+    window.countryChartInstance.destroy();
+  }
+
+  window.countryChartInstance = new Chart(document.getElementById("countryChart"), {
+    type: "pie",
+    data: {
+      labels: countryLabels,
+      datasets: [{ data: countryValues }]
+    },
+    options: {
+      plugins: { title: { display: true, text: "نسبة الهجمات حسب الدولة" } }
+    }
+  });
 }
 
 function tickUpdatedLabel() {

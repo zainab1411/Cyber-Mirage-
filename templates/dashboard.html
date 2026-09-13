@@ -31,6 +31,11 @@
     ⚠️ نشاط مرتفع من IP واحد خلال آخر 10 دقائق
   </div>
 
+  <div class="card" style="max-width:400px; margin:20px auto;">
+  <p class="card-label">نسبة الهجمات حسب الدولة</p>
+  <canvas id="countryChart"></canvas>
+</div>
+
   <table class="table">
     <thead>
       <tr>
@@ -42,6 +47,8 @@
     <tbody id="rows"></tbody>
   </table>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

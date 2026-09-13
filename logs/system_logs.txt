@@ -1,3 +1,4 @@
+
 Sep 07 07:54:20 kali systemd[1]: Started systemd-timedated.service - Time & Date Service.
 Sep 07 07:54:20 kali dbus-daemon[463]: [system] Successfully activated service 'org.freedesktop.timedate1'
 Sep 07 07:54:21 kali rtkit-daemon[743]: Successfully made thread 195709 of process 195563 owned by '1000' RT at priority 10.
