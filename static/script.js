@@ -1,4 +1,7 @@
 let lastUpdateSeconds = 0;
+let allAttempts = [];
+let currentPage = 1;
+const rowsPerPage = 10;
 
 async function loadData() {
   try {
@@ -18,13 +21,12 @@ function renderData(data) {
   const alertBox = document.getElementById("alert");
   alertBox.style.display = data.high_activity_alert ? "block" : "none";
 
-  const rows = document.getElementById("rows");
-  rows.innerHTML = "";
-  data.attempts.forEach((a) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${a.ip}</td><td>${a.username}</td><td>${a.time}</td>`;
-    rows.appendChild(tr);
-  });
+  allAttempts = data.attempts;
+  const maxPage = Math.max(1, Math.ceil(allAttempts.length / rowsPerPage));
+  if (currentPage > maxPage) currentPage = maxPage;
+
+  renderTablePage();
+
   const countryLabels = data.attacks_by_country.map(c => c.country);
   const countryValues = data.attacks_by_country.map(c => c.percentage);
 
@@ -43,6 +45,40 @@ function renderData(data) {
     }
   });
 }
+
+function renderTablePage() {
+  const rows = document.getElementById("rows");
+  rows.innerHTML = "";
+
+  const start = (currentPage - 1) * rowsPerPage;
+  const pageItems = allAttempts.slice(start, start + rowsPerPage);
+
+  pageItems.forEach((a) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${a.ip}</td><td>${a.username}</td><td>${a.time}</td>`;
+    rows.appendChild(tr);
+  });
+
+  const maxPage = Math.max(1, Math.ceil(allAttempts.length / rowsPerPage));
+  document.getElementById("pageInfo").textContent = `صفحة ${currentPage} من ${maxPage}`;
+  document.getElementById("prevBtn").disabled = currentPage === 1;
+  document.getElementById("nextBtn").disabled = currentPage === maxPage;
+}
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderTablePage();
+  }
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  const maxPage = Math.max(1, Math.ceil(allAttempts.length / rowsPerPage));
+  if (currentPage < maxPage) {
+    currentPage++;
+    renderTablePage();
+  }
+});
 
 function tickUpdatedLabel() {
   lastUpdateSeconds += 1;

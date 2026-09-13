@@ -89,3 +89,19 @@ body {
   border-bottom: 1px solid #2a2a2a;
 }
 body, input, button, p, h2 { font-size: 18px; }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+.pagination button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
