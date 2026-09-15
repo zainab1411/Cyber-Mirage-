@@ -28,6 +28,9 @@ function renderData(data) {
   const countryLabels = data.attacks_by_country.map(c => c.country);
   const countryValues = data.attacks_by_country.map(c => c.percentage);
 
+  // تحديث ملخص أعلى 3 دول
+  updateTopCountries(data.attacks_by_country);
+
   if (window.countryChartInstance) {
     window.countryChartInstance.destroy();
   }
@@ -41,6 +44,22 @@ function renderData(data) {
     options: {
       plugins: { title: { display: true, text: "نسبة الهجمات حسب الدولة" } }
     }
+  });
+}
+
+// دالة لتحديث قائمة أعلى 3 دول
+function updateTopCountries(countries) {
+  const listEl = document.getElementById("topCountriesList");
+  if (!listEl) return;
+  listEl.innerHTML = "";
+  
+  const sortedCountries = [...countries].sort((a, b) => b.percentage - a.percentage).slice(0, 3);
+  
+  sortedCountries.forEach((c, index) => {
+    const li = document.createElement("li");
+    li.style.cssText = "padding: 6px 0; border-bottom: 1px solid #333; font-size: 14px;";
+    li.innerHTML = `${index + 1}. 🌍 ${c.country}: <span style="color:#00f2fe; font-weight:bold;">${c.percentage}%</span>`;
+    listEl.appendChild(li);
   });
 }
 
@@ -89,11 +108,24 @@ function renderTablePage() {
   const pageItems = filteredAttempts.slice(start, start + rowsPerPage);
 
   if (pageItems.length === 0) {
-    rows.innerHTML = `<tr><td colspan="3" style="text-align:center;">لا توجد نتائج مطابقة</td></tr>`;
+    rows.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">لا توجد نتائج مطابقة</td></tr>`;
   } else {
+    const ipCounts = {};
+    filteredAttempts.forEach(item => {
+      ipCounts[item.ip] = (ipCounts[item.ip] || 0) + 1;
+    });
+
     pageItems.forEach((a) => {
+      const count = ipCounts[a.ip] || 1;
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${a.ip}</td><td>${a.username}</td><td>${a.time}</td>`;
+
+      // تمييز الـ IP المتكرر مع Tooltip يوضح عدد مرات التكرار عند مرور الماوس
+      let ipDisplay = `<span title="عنوان IP مسجل (عدد المحاولات: ${count})" style="cursor: pointer; text-decoration: underline dotted;">${a.ip}</span>`;
+      if (count > 1) {
+        ipDisplay = `<span title="⚠️ تحذير: IP متكرر (${count} محاولات)" style="cursor: pointer;">${a.ip} <span style="background: rgba(255,0,0,0.2); color:#ff6b6b; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-right: 6px; font-weight: bold;">🔴 ${count}</span></span>`;
+      }
+
+      tr.innerHTML = `<td style="padding: 10px;">${ipDisplay}</td><td style="padding: 10px;">${a.username || '-'}</td><td style="padding: 10px;" dir="ltr">${a.time}</td>`;
       rows.appendChild(tr);
     });
   }
@@ -132,10 +164,13 @@ document.getElementById("resetFilters").addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   loadData();
   setInterval(loadData, 5000);
+  initThemeToggle(); // تشغيل خاصية الوضع الليلي/النهاري
 });
+
 function updateTimerDisplay() {
   lastUpdateSeconds++;
   const el = document.getElementById("updated");
+  if (!el) return;
   if (lastUpdateSeconds < 5) {
     el.textContent = "آخر تحديث: قبل لحظات";
   } else {
@@ -144,6 +179,7 @@ function updateTimerDisplay() {
 }
 
 setInterval(updateTimerDisplay, 1000);
+
 function exportToCSV() {
   if (filteredAttempts.length === 0) {
     alert("لا توجد بيانات لتصديرها");
@@ -165,6 +201,7 @@ function exportToCSV() {
 }
 
 document.getElementById("exportCsv").addEventListener("click", exportToCSV);
+
 let sortColumn = null;
 let sortAscending = true;
 
@@ -184,8 +221,8 @@ function sortByColumn(column) {
       valA = new Date(valA);
       valB = new Date(valB);
     } else {
-      valA = valA.toLowerCase();
-      valB = valB.toLowerCase();
+      valA = (valA || "").toLowerCase();
+      valB = (valB || "").toLowerCase();
     }
 
     if (valA < valB) return sortAscending ? -1 : 1;
@@ -202,3 +239,15 @@ document.querySelectorAll("th[data-sort]").forEach(th => {
     sortByColumn(th.getAttribute("data-sort"));
   });
 });
+
+// وظيفة زر الوضع الليلي والنهاري (Dark/Light Mode)
+function initThemeToggle() {
+  const toggleBtn = document.getElementById("themeToggle");
+  if (!toggleBtn) return;
+  
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    const isLight = document.body.classList.contains("light-mode");
+    toggleBtn.textContent = isLight ? "🌙 وضع ليلي" : "☀️ وضع نهاري";
+  });
+}

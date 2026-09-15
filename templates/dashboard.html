@@ -12,7 +12,11 @@
       <span>🛡️</span>
       <span>Cyber-Mirage</span>
     </div>
-    <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
+    <!-- زر تبديل الوضع الليلي والنهاري -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button id="themeToggle" style="padding: 5px 12px; border-radius: 6px; background: #333; color: #fff; border: 1px solid #555; cursor: pointer; font-size: 13px;">☀️ وضع نهاري</button>
+      <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
+    </div>
   </div>
 
   <div class="cards">
@@ -35,6 +39,14 @@
     <canvas id="countryChart"></canvas>
   </div>
 
+  <!-- بطاقة ملخص أعلى 3 دول هجوماً -->
+  <div class="card" style="max-width:400px; margin:20px auto;">
+    <p class="card-label">أعلى 3 دول هجوماً</p>
+    <ul id="topCountriesList" style="list-style: none; padding: 0; color: #fff; text-align: right; margin-top: 10px;">
+      <!-- سيتم تعبئتها تلقائياً من الـ JavaScript -->
+    </ul>
+  </div>
+
   <div class="card" style="max-width:600px; margin:20px auto; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
     <input type="text" id="searchIp" placeholder="ابحث بعنوان IP..." style="flex:1; min-width:150px; padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
     <input type="text" id="dateFrom" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
@@ -46,7 +58,6 @@
     <button id="exportCsv" style="padding:8px 14px; border-radius:8px; border:1px solid rgba(0,242,254,0.3); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; cursor:pointer;">⬇️ تصدير CSV</button>
   </div>
 
-  <!-- تم إضافة وسام الجدول هنا مع التنسيق ليعمل الـ script بشكل صحيح -->
   <table style="width:100%; max-width:600px; margin:0 auto; border-collapse:collapse; color:#fff;">
     <thead>
       <tr>
