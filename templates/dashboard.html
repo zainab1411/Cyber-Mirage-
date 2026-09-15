@@ -8,11 +8,13 @@
 <body>
 
   <div class="header">
-    <div class="header-title">
-      <span>🛡️</span>
-      <span>Cyber-Mirage</span>
+    <div class="header-title" style="display: flex; align-items: center; gap: 12px;">
+      <!-- استدعاء اللوجو هنا بجانب اسم المشروع -->
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber-Mirage Logo" style="height: 40px; width: auto; object-fit: contain;">
+      <span style="font-size: 20px; font-weight: bold;">Cyber-Mirage</span>
     </div>
-    <!-- زر تبديل الوضع الليلي والنهاري -->
+    
+    <!-- زر تبديل الوضع الليلي والنهاري + وقت التحديث -->
     <div style="display: flex; align-items: center; gap: 10px;">
       <button id="themeToggle" style="padding: 5px 12px; border-radius: 6px; background: #333; color: #fff; border: 1px solid #555; cursor: pointer; font-size: 13px;">☀️ وضع نهاري</button>
       <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
