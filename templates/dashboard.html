@@ -10,8 +10,7 @@
   <div class="header">
     <div class="header-title">
       <span>🛡️</span>
-      <span>Cyber-Mirage
-      </span>
+      <span>Cyber-Mirage</span>
     </div>
     <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
   </div>
@@ -32,39 +31,40 @@
   </div>
 
   <div class="card" style="max-width:400px; margin:20px auto;">
-  <p class="card-label">نسبة الهجمات حسب الدولة</p>
-  <canvas id="countryChart"></canvas>
-</div>
-<div class="card" style="max-width:600px; margin:20px auto; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-  <input type="text" id="searchIp" placeholder="ابحث بعنوان IP..." style="flex:1; min-width:150px; padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
- <input type="text" id="dateFrom" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
-      <input type="text" id="dateTo" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
-      <button id="resetFilters" style="padding:8px 14px; border-radius:6px; border:none; background:#555; color:#fff; cursor:pointer;">إعادة تعيين</button>
-</div>
-<div style="max-width:600px; margin:0 auto 16px; text-align:left;">
-  <button id="exportCsv" style="padding:8px 14px; border-radius:8px; border:1px solid rgba(0,242,254,0.3); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; cursor:pointer;">⬇️ تصدير CSV</button>
-</div>
+    <p class="card-label">نسبة الهجمات حسب الدولة</p>
+    <canvas id="countryChart"></canvas>
+  </div>
 
-  <thead>
-  <tr>
-    <th data-sort="ip" style="cursor:pointer;">عنوان IP ⇅</th>
-    <th data-sort="username" style="cursor:pointer;">اسم المستخدم ⇅</th>
-    <th data-sort="time" style="cursor:pointer;">الوقت ⇅</th>
-  </tr>
-</thead>
+  <div class="card" style="max-width:600px; margin:20px auto; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+    <input type="text" id="searchIp" placeholder="ابحث بعنوان IP..." style="flex:1; min-width:150px; padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
+    <input type="text" id="dateFrom" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
+    <input type="text" id="dateTo" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
+    <button id="resetFilters" style="padding:8px 14px; border-radius:6px; border:none; background:#555; color:#fff; cursor:pointer;">إعادة تعيين</button>
+  </div>
+
+  <div style="max-width:600px; margin:0 auto 16px; text-align:left;">
+    <button id="exportCsv" style="padding:8px 14px; border-radius:8px; border:1px solid rgba(0,242,254,0.3); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; cursor:pointer;">⬇️ تصدير CSV</button>
+  </div>
+
+  <!-- تم إضافة وسام الجدول هنا مع التنسيق ليعمل الـ script بشكل صحيح -->
+  <table style="width:100%; max-width:600px; margin:0 auto; border-collapse:collapse; color:#fff;">
+    <thead>
+      <tr>
+        <th data-sort="ip" style="cursor:pointer; padding:10px; text-align:right;">عنوان IP ⇅</th>
+        <th data-sort="username" style="cursor:pointer; padding:10px; text-align:right;">اسم المستخدم ⇅</th>
+        <th data-sort="time" style="cursor:pointer; padding:10px; text-align:right;">الوقت ⇅</th>
+      </tr>
+    </thead>
     <tbody id="rows"></tbody>
   </table>
 
+  <div class="pagination" id="pagination">
+    <button id="prevBtn">السابق ‹</button>
+    <span id="pageInfo">صفحة 1</span>
+    <button id="nextBtn">› التالي</button>
+  </div>
 
-    <div class="pagination" id="pagination">
-      <button id="prevBtn">السابق ‹</button>
-      <span id="pageInfo">صفحة 1</span>
-      <button id="nextBtn">› التالي</button>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
