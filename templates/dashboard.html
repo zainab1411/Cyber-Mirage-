@@ -5,7 +5,7 @@
   <title>Cyber-Mirage</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
-    /* فرض الألوان الجديدة في الوضع النهاري بقوة */
+    /* تنسيقات الوضع النهاري للوحة التحكم */
     body.light-mode {
       background-color: #f4f7f6 !important;
       color: #111 !important;
@@ -34,6 +34,7 @@
       <span style="font-size: 20px; font-weight: bold; color: #00f2fe;">Cyber-Mirage</span>
     </div>
     
+    <!-- زر الوضع الليلي والنهاري (يتم إدارته عبر script.js) -->
     <div style="display: flex; align-items: center; gap: 10px;">
       <button id="themeToggle" style="padding: 5px 12px; border-radius: 6px; background: #333; color: #fff; border: 1px solid #555; cursor: pointer; font-size: 13px;">☀️ وضع نهاري</button>
       <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
@@ -95,24 +96,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- ملف الجافا سكريبت الخارجي الذي يحتوي على دالة initThemeToggle() وكود الجداول -->
   <script src="{{ url_for('static', filename='script.js') }}"></script>
-
-  <script>
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-mode');
-        if (document.body.classList.contains('light-mode')) {
-          themeToggle.textContent = '🌙 وضع ليلي';
-          themeToggle.style.background = '#ddd';
-          themeToggle.style.color = '#333';
-        } else {
-          themeToggle.textContent = '☀️ وضع نهاري';
-          themeToggle.style.background = '#333';
-          themeToggle.style.color = '#fff';
-        }
-      });
-    }
-  </script>
 </body>
 </html>
