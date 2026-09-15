@@ -8,9 +8,10 @@
 <body>
 
   <div class="header">
-    <div class="header-title" style="display: flex; align-items: center; gap: 10px;">
-      <!-- عرض اللوجو فقط بشكل مرتب وجميل -->
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber-Mirage Logo" style="height: 45px; width: auto; object-fit: contain; border-radius: 6px;">
+    <div class="header-title" style="display: flex; align-items: center; gap: 12px;">
+      <!-- صورة اللوجو وبجانبها اسم المشروع -->
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber-Mirage Logo" style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
+      <span style="font-size: 20px; font-weight: bold; color: #00f2fe;">Cyber-Mirage</span>
     </div>
     
     <!-- زر تبديل الوضع الليلي والنهاري + وقت التحديث -->
