@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <title>Cyber-Mirage</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* تنسيقات الوضع النهاري السريعة لضمان عمل الثيم بشكل ممتاز */
+    body.light-mode {
+      background-color: #f4f7f6 !important;
+      color: #333 !important;
+    }
+    body.light-mode .card {
+      background-color: #ffffff !important;
+      color: #333 !important;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    body.light-mode input, body.light-mode table {
+      background-color: #ffffff !important;
+      color: #333 !important;
+      border-color: #ccc !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -44,7 +61,7 @@
   <!-- بطاقة ملخص أعلى 3 دول هجوماً -->
   <div class="card" style="max-width:400px; margin:20px auto;">
     <p class="card-label">أعلى 3 دول هجوماً</p>
-    <ul id="topCountriesList" style="list-style: none; padding: 0; color: #fff; text-align: right; margin-top: 10px;">
+    <ul id="topCountriesList" style="list-style: none; padding: 0; text-align: right; margin-top: 10px;">
       <!-- سيتم تعبئتها تلقائياً من الـ JavaScript -->
     </ul>
   </div>
@@ -60,7 +77,7 @@
     <button id="exportCsv" style="padding:8px 14px; border-radius:8px; border:1px solid rgba(0,242,254,0.3); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; cursor:pointer;">⬇️ تصدير CSV</button>
   </div>
 
-  <table style="width:100%; max-width:600px; margin:0 auto; border-collapse:collapse; color:#fff;">
+  <table style="width:100%; max-width:600px; margin:0 auto; border-collapse:collapse;">
     <thead>
       <tr>
         <th data-sort="ip" style="cursor:pointer; padding:10px; text-align:right;">عنوان IP ⇅</th>
@@ -79,5 +96,24 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+  <!-- كود تشغيل زر الوضع الليلي والنهاري -->
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        if (document.body.classList.contains('light-mode')) {
+          themeToggle.textContent = '🌙 وضع ليلي';
+          themeToggle.style.background = '#ddd';
+          themeToggle.style.color = '#333';
+        } else {
+          themeToggle.textContent = '☀️ وضع نهاري';
+          themeToggle.style.background = '#333';
+          themeToggle.style.color = '#fff';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
