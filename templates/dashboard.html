@@ -5,20 +5,24 @@
   <title>Cyber-Mirage</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
-    /* تنسيقات الوضع النهاري السريعة لضمان عمل الثيم بشكل ممتاز */
+    /* فرض الألوان الجديدة في الوضع النهاري بقوة */
     body.light-mode {
       background-color: #f4f7f6 !important;
-      color: #333 !important;
+      color: #111 !important;
     }
     body.light-mode .card {
       background-color: #ffffff !important;
-      color: #333 !important;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      color: #111 !important;
+      border: 1px solid #ddd !important;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
     }
-    body.light-mode input, body.light-mode table {
+    body.light-mode input, body.light-mode table, body.light-mode th, body.light-mode td {
       background-color: #ffffff !important;
-      color: #333 !important;
+      color: #111 !important;
       border-color: #ccc !important;
+    }
+    body.light-mode .card-label, body.light-mode .card-value {
+      color: #111 !important;
     }
   </style>
 </head>
@@ -26,12 +30,10 @@
 
   <div class="header">
     <div class="header-title" style="display: flex; align-items: center; gap: 12px;">
-      <!-- صورة اللوجو وبجانبها اسم المشروع -->
       <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber-Mirage Logo" style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
       <span style="font-size: 20px; font-weight: bold; color: #00f2fe;">Cyber-Mirage</span>
     </div>
     
-    <!-- زر تبديل الوضع الليلي والنهاري + وقت التحديث -->
     <div style="display: flex; align-items: center; gap: 10px;">
       <button id="themeToggle" style="padding: 5px 12px; border-radius: 6px; background: #333; color: #fff; border: 1px solid #555; cursor: pointer; font-size: 13px;">☀️ وضع نهاري</button>
       <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
@@ -58,11 +60,9 @@
     <canvas id="countryChart"></canvas>
   </div>
 
-  <!-- بطاقة ملخص أعلى 3 دول هجوماً -->
   <div class="card" style="max-width:400px; margin:20px auto;">
     <p class="card-label">أعلى 3 دول هجوماً</p>
     <ul id="topCountriesList" style="list-style: none; padding: 0; text-align: right; margin-top: 10px;">
-      <!-- سيتم تعبئتها تلقائياً من الـ JavaScript -->
     </ul>
   </div>
 
@@ -97,7 +97,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-  <!-- كود تشغيل زر الوضع الليلي والنهاري -->
   <script>
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
