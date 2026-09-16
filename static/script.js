@@ -163,7 +163,7 @@ document.getElementById("resetFilters").addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadData();
-  setInterval(loadData, 5000);
+  setInterval(loadData, 3600000);
   initThemeToggle(); // تشغيل خاصية الوضع الليلي/النهاري
 });
 
