@@ -4,7 +4,7 @@ from datetime import datetime, timezone, timedelta
 from threading import Lock
 import json
 import os
-ELASTIC_URL = "https://34.239.26.173:64297"
+ELASTIC_URL = "https://127.0.0.1:64298"
 app = Flask(__name__)
 app.secret_key = "cybermirage_secret_key_2026"
 
