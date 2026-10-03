@@ -97,6 +97,11 @@ def live():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
     return render_template("live.html")
+@app.route("/counter")
+def counter():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    return render_template("counter.html")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

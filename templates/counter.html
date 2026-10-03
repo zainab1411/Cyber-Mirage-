@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber Mirage - Counter</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#16223f;font-family:"Cairo",Tahoma,sans-serif;color:#e8f1ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(90px);z-index:-1;opacity:.5}
+body::before{width:46vmin;height:46vmin;background:#1a5fb4;top:-10vmin;right:-10vmin}
+body::after{width:40vmin;height:40vmin;background:#00f2fe;bottom:-12vmin;left:-10vmin;opacity:.25}
+.box{width:min(92vw,720px);text-align:center;padding:5vmin 4vmin;border-radius:36px;background:#16223f;box-shadow:14px 14px 34px #0a1226,-14px -14px 34px #243660}
+.logo{width:min(22vmin,150px);height:min(22vmin,150px);border-radius:50%;box-shadow:0 0 0 3px #00f2fe,0 0 30px rgba(0,242,254,.45);object-fit:cover}
+.live{margin-top:3vmin;font-weight:800;font-size:clamp(16px,3vmin,24px);color:#ff5a6e;display:flex;gap:10px;justify-content:center;align-items:center}
+.dot{width:14px;height:14px;border-radius:50%;background:#ff3b53;animation:ping 1.4s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,59,83,.7)}100%{box-shadow:0 0 0 16px rgba(255,59,83,0)}}
+#n{font-size:clamp(90px,34vmin,300px);font-weight:900;line-height:1.05;margin:2vmin 0 0;color:#00f2fe;text-shadow:0 0 28px rgba(0,242,254,.45);font-variant-numeric:tabular-nums;direction:ltr}
+#n.bump{animation:bump .6s}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.25);color:#fff}100%{transform:scale(1)}}
+.lbl{font-weight:800;font-size:clamp(20px,5vmin,40px)}
+.sub{margin-top:1vmin;color:#9db4d8;font-weight:600;font-size:clamp(14px,2.6vmin,22px)}
+#alert{margin-top:2.5vmin;height:2.2em;font-weight:800;color:#ffd166;font-size:clamp(16px,3vmin,26px);opacity:0;transition:opacity .3s}
+#alert.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="box">
+  <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="">
+  <div class="live"><span class="dot"></span>مباشر</div>
+  <div id="n">0</div>
+  <div class="lbl">محاولة اختراق</div>
+  <div class="sub">جرّب بنفسك: امسح الباركود 📱</div>
+  <div id="alert">⚠️ محاولة جديدة الآن!</div>
+</div>
+<script>
+let last=null, t;
+async function tick(){
+  try{
+    const r=await fetch("/api/attempts");
+    if(r.status===401){location.href="/login";return;}
+    const d=await r.json(), n=document.getElementById("n");
+    n.textContent=d.total;
+    if(last!==null && d.total>last){
+      n.classList.remove("bump");void n.offsetWidth;n.classList.add("bump");
+      const a=document.getElementById("alert");a.classList.add("on");
+      clearTimeout(t);t=setTimeout(()=>a.classList.remove("on"),2500);
+    }
+    last=d.total;
+  }catch(e){}
+}
+tick();setInterval(tick,2000);
+</script>
+</body>
+</html>
