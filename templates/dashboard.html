@@ -3,28 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Cyber-Mirage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    /* تنسيقات الوضع النهاري للوحة التحكم */
-    body.light-mode {
-      background-color: #f4f7f6 !important;
-      color: #111 !important;
-    }
-    body.light-mode .card {
-      background-color: #ffffff !important;
-      color: #111 !important;
-      border: 1px solid #ddd !important;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-    }
-    body.light-mode input, body.light-mode table, body.light-mode th, body.light-mode td {
-      background-color: #ffffff !important;
-      color: #111 !important;
-      border-color: #ccc !important;
-    }
-    body.light-mode .card-label, body.light-mode .card-value {
-      color: #111 !important;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='neo.css') }}">
 </head>
 <body>
 
@@ -54,6 +35,10 @@
 
   <div class="alert" id="alert" style="display:none;">
     ⚠️ نشاط مرتفع من IP واحد خلال آخر 10 دقائق
+  </div>
+
+  <div style="max-width:600px; margin:20px auto; text-align:center;">
+    <a href="/live" target="_blank" style="display:inline-block; padding:12px 24px; border-radius:10px; border:1px solid rgba(0,242,254,0.4); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; text-decoration:none; font-weight:bold;">🔴 فتح شاشة المحاولات الحية</a>
   </div>
 
   <div class="card" style="max-width:400px; margin:20px auto;">

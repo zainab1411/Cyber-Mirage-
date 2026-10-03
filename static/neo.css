@@ -1,0 +1,37 @@
+:root{--bg:#16223f;--sd:#0a1226;--sl:#243660;--ac:#00f2fe;--tx:#e6efff;--mut:#8fa3c7;--line:rgba(255,255,255,.07);--o1:rgba(0,242,254,.18);--o2:rgba(90,120,255,.24)}
+:root:has(body.light-mode){--bg:#e3e6ec;--sd:#b8bcc8;--sl:#ffffff;--ac:#1a73e8;--tx:#2b3445;--mut:#6b7588;--line:rgba(0,0,0,.08);--o1:rgba(26,115,232,.16);--o2:rgba(120,160,255,.22)}
+html{background:var(--bg)!important}
+body{background:transparent!important;color:var(--tx)!important;font-family:"Segoe UI",Tahoma,Arial,sans-serif;margin:0;padding:24px 16px;min-height:100vh}
+html::before,html::after{content:"";position:fixed;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none;animation:neo-float 9s ease-in-out infinite}
+html::before{width:300px;height:300px;background:var(--o1);top:-80px;left:-80px}
+html::after{width:340px;height:340px;background:var(--o2);bottom:-100px;right:-100px;animation-delay:-4.5s}
+@keyframes neo-float{50%{transform:translate(30px,40px)}}
+@keyframes neo-rise{from{opacity:0;transform:translateY(20px)}}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:640px;margin:0 auto 24px!important;padding:14px 20px!important;border:0!important;border-radius:24px;background:var(--bg)!important;box-shadow:8px 8px 18px var(--sd),-8px -8px 18px var(--sl)!important;animation:neo-rise .6s ease both}
+.header-title span{color:var(--ac)!important}
+.updated{color:var(--mut)!important;font-size:13px}
+.cards{display:flex;gap:20px;max-width:640px;margin:0 auto 24px!important;flex-wrap:wrap}
+.cards .card{flex:1;min-width:200px;margin:0!important;max-width:none!important}
+.card{background:var(--bg)!important;border:0!important;border-radius:26px!important;padding:20px!important;color:var(--tx)!important;box-shadow:9px 9px 20px var(--sd),-9px -9px 20px var(--sl)!important;animation:neo-rise .6s ease both}
+.card-label{color:var(--mut)!important}
+.card-value{color:var(--ac)!important;text-shadow:none!important}
+.alert{max-width:640px;margin:0 auto 22px!important;padding:14px!important;border:0!important;border-radius:18px!important;text-align:center;background:var(--bg)!important;color:#ff6b6b!important;box-shadow:inset 5px 5px 10px var(--sd),inset -5px -5px 10px var(--sl)!important}
+input[type=text]{background:var(--bg)!important;color:var(--tx)!important;border:0!important;border-radius:14px!important;padding:12px 14px!important;outline:0;box-shadow:inset 4px 4px 9px var(--sd),inset -4px -4px 9px var(--sl)!important}
+input[type=text]:focus{box-shadow:inset 4px 4px 9px var(--sd),inset -4px -4px 9px var(--sl),0 0 0 2px var(--ac)!important}
+::placeholder{color:var(--mut)!important;opacity:1}
+button,a[href="/live"]{background:var(--bg)!important;color:var(--tx)!important;border:0!important;border-radius:14px!important;padding:11px 18px!important;cursor:pointer;box-shadow:5px 5px 12px var(--sd),-5px -5px 12px var(--sl)!important;transition:.2s}
+button:hover,a[href="/live"]:hover{color:var(--ac)!important}
+button:active,a[href="/live"]:active{box-shadow:inset 4px 4px 9px var(--sd),inset -4px -4px 9px var(--sl)!important}
+table{background:var(--bg)!important;border-collapse:separate!important;border-spacing:0;border-radius:22px;box-shadow:9px 9px 20px var(--sd),-9px -9px 20px var(--sl);overflow:hidden;margin-top:8px!important}
+th{color:var(--mut)!important;background:transparent!important;border:0!important;padding:14px 10px!important}
+td{color:var(--tx)!important;background:transparent!important;border:0!important;border-top:1px solid var(--line)!important;padding:11px 10px}
+#topCountriesList li{padding:9px 0;border-bottom:1px solid var(--line)}
+.pagination{display:flex;justify-content:center;align-items:center;gap:14px;margin:26px 0;color:var(--mut)}
+body{max-width:680px;margin:0 auto!important}
+body{font-family:"Cairo","Segoe UI",Tahoma,Arial,sans-serif!important;font-weight:700}
+button,input{font-family:inherit!important;font-weight:700}
+.header-title span{font-size:26px!important;font-weight:800!important}
+.card-label{font-size:17px!important;font-weight:700!important}
+.card-value{font-size:38px!important;font-weight:800!important}
+th{font-size:16px!important;font-weight:800!important}
+td{font-size:17px!important;font-weight:700!important}
