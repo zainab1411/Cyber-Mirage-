@@ -209,10 +209,7 @@ body.light-mode .cm-chat { background: #f3f6fb; }
   .card-value { font-size: 41px; }
   .header { flex-direction: column; align-items: flex-start; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .g, .sweep, .blip, .bars div, .ipr .fl, .spark path { animation: none !important; }
-  .spark path.line { stroke-dashoffset: 0; } .spark path.area { opacity: 1; } .blip { opacity: .9; }
-}
+/* الحركة تشتغل دايمًا (الرادار والخلفية) حتى لو ويندوز مطفّي تأثيرات الحركة */
 
 /* =====================================================
    صفحات: الرئيسية، تسجيل الدخول، المحاولات الحية

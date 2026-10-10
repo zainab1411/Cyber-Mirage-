@@ -15,7 +15,9 @@
   window.__cmLife = true;
 
   function start() {
-    var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    // اتركيها false لتشتغل الحركة دايمًا حتى لو ويندوز مطفّي "تأثيرات الحركة". غيّريها true لاحترام إعداد الجهاز
+    var RESPECT_REDUCED_MOTION = false;
+    var reduce = RESPECT_REDUCED_MOTION && !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     var dashboard = !!document.getElementById("total");
     var PH = (1 + Math.sqrt(5)) / 2;
 

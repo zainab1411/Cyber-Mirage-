@@ -1,8 +1,11 @@
-/* Cyber Mirage — enhance.js */
+/* Cyber Mirage — enhance.js
+   1) أنيميشن لوحة التحكم (ظهور تدريجي، عدّاد، كتابة تلقائية، صفوف الجدول)
+   2) مساعد عائم: يجرّب /api/chat (الذكاء الاصطناعي) وإذا ما اشتغل يرد من قاعدة معرفة محلية
+   ما يغيّر في script.js أبدًا، يشتغل فوقه. */
 (function () {
   "use strict";
-  var CONTACT_EMAIL = "cyber.mirage2026@gmail.com";
-  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  var reduce = false;   // الحركة تشتغل دايمًا
   function $(s, r) { return (r || document).querySelector(s); }
   function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
   function ready(fn) {
@@ -10,6 +13,9 @@
     else fn();
   }
 
+  /* =====================================================
+     1) أنيميشن لوحة التحكم
+     ===================================================== */
   function typeText(el, text, speed) {
     if (reduce) { el.textContent = text; return; }
     var i = 0;
@@ -26,7 +32,7 @@
     if (m) shown = parseInt(m[0].replace(/,/g, ""), 10) || 0;
     new MutationObserver(function () {
       var t = el.textContent.trim();
-      if (t === last || !/\d/.test(t)) return;
+      if (t === last || !/\d/.test(t)) return;           // كتابتنا نحن أو نص بدون رقم ("--")
       var n = parseInt(t.replace(/[^\d]/g, ""), 10);
       if (isNaN(n)) return;
       var comma = t.indexOf(",") > -1, from = shown, start = performance.now(), dur = 900;
@@ -44,8 +50,9 @@
 
   function initDashboardFx() {
     var total = $("#total");
-    if (!total || !$(".cards")) return;
+    if (!total || !$(".cards")) return;                  // مو صفحة الداشبورد
 
+    // توهج اسم المشروع + نقطة "مباشر"
     var title = $(".header-title span");
     if (title) title.classList.add("cm-glow");
     var upd = $("#updated");
@@ -55,6 +62,7 @@
       upd.parentNode.insertBefore(dot, upd);
     }
 
+    // سطر الكتابة التلقائية تحت الهيدر
     var header = $(".header");
     if (header && header.parentNode) {
       var tag = document.createElement("div");
@@ -68,6 +76,7 @@
       typeText(txt, "Smart Cyber Deception & Suspicious Behavior Analysis", 38);
     }
 
+    // ظهور تدريجي عند التمرير
     if (!reduce && "IntersectionObserver" in window) {
       var targets = $$(".header, .cards .card, body > .card, body > table, body > .pagination, body > div[style]");
       var io = new IntersectionObserver(function (entries) {
@@ -80,13 +89,15 @@
         });
       }, { threshold: 0.08 });
       targets.forEach(function (el) { el.classList.add("cm-reveal"); io.observe(el); });
-      setTimeout(function () {
+      setTimeout(function () {                           // شبكة أمان: ما يبقى شي مخفي
         targets.forEach(function (el) { el.classList.add("cm-in"); });
       }, 3000);
     }
 
+    // عدّاد متحرك للإجمالي
     countUp(total);
 
+    // حركة دخول لصفوف الجدول (فقط لما يتغير المحتوى فعلًا)
     var rows = $("#rows");
     if (rows && "MutationObserver" in window && !reduce) {
       var sig = rows.textContent;
@@ -102,7 +113,9 @@
     }
   }
 
-  /* ===== المساعد العائم ===== */
+  /* =====================================================
+     2) المساعد العائم
+     ===================================================== */
   function norm(s) {
     return String(s).toLowerCase()
       .replace(/[ً-ٰٟـ]/g, "")
@@ -114,6 +127,7 @@
     return false;
   }
 
+  // الكلمات المفتاحية مكتوبة بصيغة "مطبّعة" (بدون همزات، ة=ه، ى=ي)
   var RULES = [
     { any: ["مرحبا", "السلام", "هلا", "اهلا", "hello", "hi "],
       a: "هلا والله! 👋 أنا مساعد Cyber Mirage. اسأليني عن المنصة، لوحة التحكم، أو الدعم." },
@@ -158,11 +172,11 @@
     { any: ["ما هي", "ما هو", "وش هي", "وش هو", "ايش", "عن المشروع", "عن المنصه", "تعريف", "cyber mirage", "ميراج"],
       a: "Cyber Mirage منصة ذكية للخداع السيبراني (Honeypot). تجذب الأنشطة المشبوهة، تسجّلها، وتعرض تحليلها في لوحة تحكم: أرقام، جدول، رسوم، وتنبيهات." },
 
-       { any: ["كلمه مرور", "كلمات المرور", "باسورد", "password", "حمايه", "نصائح", "نصيحه"],
+    { any: ["كلمه مرور", "كلمات المرور", "باسورد", "password", "حمايه", "نصائح", "نصيحه"],
       a: "نصائح سريعة: كلمة مرور طويلة وفريدة لكل حساب، فعّلي التحقق بخطوتين، ولا تدخلين بياناتك في روابط ما تثقين فيها. وغيّري أي كلمة مرور شاركتيها مع أحد." },
 
     { any: ["دعم", "مشكله", "عطل", "خطا", "ما يشتغل", "تواصل", "مساعده", "support"],
-      a: "إذا واجهتي مشكلة: تواصلي معنا عبر الإيميل 👇\n\n[[MAIL]]" }
+      a: "إذا واجهتي مشكلة: اكتبي لي وصفها هنا بالتفصيل، أو تواصلي مع قائدة الفريق زينب المدحمي، أو افتحي Issue في مستودع المشروع على GitHub (zainab1411/Cyber-Mirage-)." }
   ];
 
   var FALLBACK = "ما فهمت سؤالك تمامًا 🤔 جرّبي أحد الأسئلة اللي تحت، أو اكتبي «دعم» وأوجهك للتواصل مع الفريق.";
@@ -178,6 +192,7 @@
     return FALLBACK;
   }
 
+  // يجرّب الذكاء الاصطناعي من السيرفر، وإذا فشل يرجع للرد المحلي
   function ask(q) {
     var ctl = window.AbortController ? new AbortController() : null;
     var timer = ctl ? setTimeout(function () { ctl.abort(); }, 20000) : 0;
@@ -202,7 +217,7 @@
     fab.className = "cm-fab";
     fab.setAttribute("aria-label", "مساعد Cyber Mirage");
     fab.setAttribute("aria-expanded", "false");
-    fab.innerHTML = ICON;
+    fab.innerHTML = ICON;                                // نص ثابت من عندنا فقط
 
     var box = document.createElement("div");
     box.className = "cm-chat";
@@ -233,7 +248,7 @@
     function addMsg(text, who) {
       var d = document.createElement("div");
       d.className = "cm-msg " + (who === "user" ? "cm-user" : "cm-bot");
-      d.textContent = text;
+      d.textContent = text;                              // textContent دائمًا: آمن من XSS
       msgs.appendChild(d);
       msgs.scrollTop = msgs.scrollHeight;
       return d;
@@ -251,16 +266,7 @@
       for (var i = 0; i < 3; i++) wait.appendChild(document.createElement("span"));
       ask(q).then(function (txt) {
         wait.classList.remove("cm-dots");
-        var wantsMail = txt.indexOf("[[MAIL]]") > -1;
-        wait.textContent = txt.replace("[[MAIL]]", "").trim();
-        if (wantsMail && CONTACT_EMAIL.indexOf("@") > -1) {
-          var mail = document.createElement("a");
-          mail.className = "cm-mail";
-          mail.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("دعم Cyber Mirage");
-          mail.textContent = "✉️ راسلينا";
-          wait.appendChild(document.createElement("br"));
-          wait.appendChild(mail);
-        }
+        wait.textContent = txt;
         msgs.scrollTop = msgs.scrollHeight;
         busy = false;
       });
@@ -290,7 +296,7 @@
   }
 
   ready(function () {
-    try { initDashboardFx(); } catch (e) {}
-    try { initAssistant(); } catch (e) {}
+    try { initDashboardFx(); } catch (e) { /* الأنيميشن إضافة فقط، لا نكسر الصفحة */ }
+    try { initAssistant(); } catch (e) { /* نفس الشي */ }
   });
 })();
