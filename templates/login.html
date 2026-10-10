@@ -4,43 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تسجيل الدخول - Cyber Mirage</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-:root{--bg:#16223f;--sd:#0a1226;--sl:#243660;--ac:#00f2fe;--tx:#f2f7ff;--mut:#a9bbdd}
-html{background:var(--bg)}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--tx);font-family:"Cairo",Tahoma,Arial,sans-serif;font-weight:700;overflow:hidden}
-html::before,html::after{content:"";position:fixed;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none;animation:float 9s ease-in-out infinite}
-html::before{width:320px;height:320px;background:rgba(0,242,254,.18);top:-90px;left:-90px}
-html::after{width:360px;height:360px;background:rgba(90,120,255,.26);bottom:-110px;right:-110px;animation-delay:-4.5s}
-@keyframes float{50%{transform:translate(34px,44px)}}
-@keyframes rise{from{opacity:0;transform:translateY(28px)}}
-.card{position:relative;width:92%;max-width:420px;padding:38px 30px;border-radius:36px;background:var(--bg);box-shadow:14px 14px 30px var(--sd),-14px -14px 30px var(--sl);text-align:center;overflow:hidden;animation:rise .8s ease both}
-.logo{position:relative;width:84px;height:84px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:6px 6px 14px var(--sd),-6px -6px 14px var(--sl)}
-.logo img{width:58px;height:58px;object-fit:contain;border-radius:50%}
-.logo::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--ac);opacity:0;animation:ping 3s ease-out infinite}
-@keyframes ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.8);opacity:0}}
-h2{margin:0 0 6px;font-size:34px;font-weight:800;color:var(--ac);letter-spacing:1px}
-.sub{margin:0 0 24px;font-size:17px;color:var(--mut);font-weight:600}
-.error{background:rgba(255,90,90,.12);color:#ff8f8f;padding:12px;border-radius:16px;margin-bottom:18px;font-size:16px;font-weight:700;animation:shake .45s}
-@keyframes shake{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
-.field{position:relative;margin-bottom:18px}
-.field svg{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;fill:var(--mut)}
-.field input{width:100%;padding:15px 52px 15px 16px;border:0;border-radius:18px;background:var(--bg);font:inherit;font-size:17px;font-weight:700;color:var(--tx);outline:0;box-shadow:inset 5px 5px 11px var(--sd),inset -5px -5px 11px var(--sl);transition:.25s}
-.field input::placeholder{color:var(--mut);opacity:1}
-.field input:focus{box-shadow:inset 5px 5px 11px var(--sd),inset -5px -5px 11px var(--sl),0 0 0 2px var(--ac)}
-.btn{width:100%;margin-top:6px;padding:15px;border:0;border-radius:18px;background:var(--bg);color:var(--tx);font:inherit;font-size:20px;font-weight:800;cursor:pointer;box-shadow:7px 7px 16px var(--sd),-7px -7px 16px var(--sl);transition:.2s}
-.btn:hover{color:var(--ac)}
-.btn:active{box-shadow:inset 5px 5px 11px var(--sd),inset -5px -5px 11px var(--sl)}
-.back{display:inline-block;margin-top:20px;color:var(--mut);font-size:15px;text-decoration:none}
-.back:hover{color:var(--ac)}
-.blade{position:absolute;top:0;bottom:0;left:-60%;width:50%;background:linear-gradient(90deg,transparent,rgba(0,242,254,.5),transparent);transform:skewX(-20deg);pointer-events:none}
-.card.sweep .blade{animation:sweep .6s ease-in forwards}
-@keyframes sweep{to{left:130%}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='enhance.css') }}">
 </head>
 <body>
-  <div class="card" id="card">
+<div class="page-center">
+  <div class="auth glass card" id="card">
     <span class="blade"></span>
     <div class="logo"><img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber Mirage"></div>
     <h2>Cyber Mirage</h2>
@@ -63,6 +33,7 @@ h2{margin:0 0 6px;font-size:34px;font-weight:800;color:var(--ac);letter-spacing:
     </form>
     <a class="back" href="{{ url_for('index') }}">← الصفحة الرئيسية</a>
   </div>
+</div>
 
 <script>
 var f = document.getElementById("f"), c = document.getElementById("card");
@@ -72,5 +43,7 @@ f.addEventListener("submit", function (e) {
   setTimeout(function () { f.submit(); }, 600);
 });
 </script>
+<script src="{{ url_for('static', filename='enhance.js') }}"></script>
+<script src="{{ url_for('static', filename='life.js') }}"></script>
 </body>
 </html>

@@ -4,61 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cyber Mirage Live</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-:root{--bg:#16223f;--sd:#0a1226;--sl:#243660;--ac:#00f2fe;--tx:#f2f7ff;--mut:#a9bbdd;--line:rgba(255,255,255,.08)}
-html{background:var(--bg)}
-body{margin:0;min-height:100vh;background:transparent;color:var(--tx);font-family:"Cairo",Tahoma,Arial,sans-serif;font-weight:700;padding:26px 16px}
-html::before,html::after{content:"";position:fixed;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none;animation:float 9s ease-in-out infinite}
-html::before{width:320px;height:320px;background:rgba(0,242,254,.18);top:-90px;left:-90px}
-html::after{width:360px;height:360px;background:rgba(90,120,255,.26);bottom:-110px;right:-110px;animation-delay:-4.5s}
-@keyframes float{50%{transform:translate(34px,44px)}}
-@keyframes rise{from{opacity:0;transform:translateY(22px)}}
-.wrap{max-width:980px;margin:0 auto}
-.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;margin-bottom:24px}
-.title{display:flex;align-items:center;gap:16px;padding:16px 26px;border-radius:26px;background:var(--bg);box-shadow:9px 9px 20px var(--sd),-9px -9px 20px var(--sl);animation:rise .7s ease both}
-.title img{width:46px;height:46px;object-fit:contain;border-radius:50%}
-h1{margin:0;font-size:30px;font-weight:800;color:var(--ac)}
-.live{display:inline-flex;align-items:center;gap:9px;padding:6px 16px;border-radius:24px;font-size:15px;color:var(--tx);box-shadow:inset 3px 3px 8px var(--sd),inset -3px -3px 8px var(--sl)}
-.dot{width:10px;height:10px;border-radius:50%;background:#ff4d4d;animation:pulse 1.2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,77,77,.7)}100%{box-shadow:0 0 0 10px rgba(255,77,77,0)}}
-.count{min-width:190px;text-align:center;padding:12px 28px;border-radius:26px;background:var(--bg);box-shadow:9px 9px 20px var(--sd),-9px -9px 20px var(--sl);animation:rise .7s .1s ease both}
-.count span{display:block;font-size:16px;color:var(--mut)}
-.count b{display:block;font-size:54px;line-height:1.1;font-weight:800;color:var(--ac)}
-.count b.bump{animation:bump .5s}
-@keyframes bump{40%{transform:scale(1.35)}}
-.alert{display:none;margin-bottom:20px;padding:16px;border-radius:20px;text-align:center;font-size:24px;font-weight:800;color:#ff8f8f;background:var(--bg);box-shadow:inset 6px 6px 12px var(--sd),inset -6px -6px 12px var(--sl);animation:shake .5s}
-@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-.box{padding:10px 18px 18px;border-radius:30px;background:var(--bg);box-shadow:12px 12px 26px var(--sd),-12px -12px 26px var(--sl);animation:rise .7s .2s ease both}
-table{width:100%;border-collapse:collapse;text-align:right}
-th{padding:16px 12px;font-size:18px;font-weight:800;color:var(--mut)}
-td{padding:15px 12px;font-size:22px;border-top:1px solid var(--line)}
-tr.new td{animation:flash 1.8s}
-tr.new{animation:slide .5s}
-@keyframes flash{from{background:rgba(255,77,77,.35)}to{background:transparent}}
-@keyframes slide{from{transform:translateY(-14px);opacity:0}}
-.empty td{text-align:center;color:var(--mut);padding:40px}
-.back{display:block;text-align:center;margin-top:22px;color:var(--mut);text-decoration:none;font-size:16px}
-.back:hover{color:var(--ac)}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='enhance.css') }}">
 </head>
 <body>
 <div class="wrap">
   <div class="top">
-    <div class="title">
+    <div class="title glass">
       <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber Mirage">
       <div>
         <h1>Cyber Mirage</h1>
-        <span class="live"><span class="dot"></span>المحاولات الحية</span>
+        <span class="livetag"><i></i>المحاولات الحية</span>
       </div>
     </div>
-    <div class="count"><span>عدد المحاولات</span><b id="total">0</b></div>
+    <div class="count glass"><span>عدد المحاولات</span><b id="total">0</b></div>
   </div>
 
-  <div class="alert" id="alert">⚠️ محاولة اختراق جديدة!</div>
+  <div class="alert livealert" id="alert">⚠️ محاولة اختراق جديدة!</div>
 
-  <div class="box">
+  <div class="box glass">
     <table>
       <thead><tr><th>الوقت</th><th>اليوزر</th><th>طول الباسورد</th><th>IP</th></tr></thead>
       <tbody id="body"><tr class="empty"><td colspan="4">بانتظار المحاولات...</td></tr></tbody>
@@ -109,5 +74,7 @@ async function load() {
 load();
 setInterval(load, 2000);
 </script>
+<script src="{{ url_for('static', filename='enhance.js') }}"></script>
+<script src="{{ url_for('static', filename='life.js') }}"></script>
 </body>
 </html>

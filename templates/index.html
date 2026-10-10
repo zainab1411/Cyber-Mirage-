@@ -4,42 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Mirage</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-:root{--bg:#16223f;--sd:#0a1226;--sl:#243660;--ac:#00f2fe;--tx:#f2f7ff;--mut:#a9bbdd}
-html{background:var(--bg)}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--tx);font-family:"Cairo",Tahoma,Arial,sans-serif;font-weight:700;overflow:hidden}
-html::before,html::after{content:"";position:fixed;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none;animation:float 9s ease-in-out infinite}
-html::before{width:320px;height:320px;background:rgba(0,242,254,.18);top:-90px;left:-90px}
-html::after{width:360px;height:360px;background:rgba(90,120,255,.26);bottom:-110px;right:-110px;animation-delay:-4.5s}
-@keyframes float{50%{transform:translate(34px,44px)}}
-@keyframes rise{from{opacity:0;transform:translateY(28px)}}
-.card{width:92%;max-width:460px;padding:44px 32px;border-radius:38px;background:var(--bg);box-shadow:14px 14px 30px var(--sd),-14px -14px 30px var(--sl);text-align:center;animation:rise .8s ease both}
-.logo{position:relative;width:120px;height:120px;margin:0 auto 24px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:8px 8px 18px var(--sd),-8px -8px 18px var(--sl)}
-.logo img{width:84px;height:84px;object-fit:contain;border-radius:50%}
-.logo::before,.logo::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--ac);opacity:0;animation:ping 3s ease-out infinite}
-.logo::after{animation-delay:1.5s}
-@keyframes ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.9);opacity:0}}
-h1{margin:0 0 12px;font-size:44px;font-weight:800;color:var(--ac);letter-spacing:1px}
-.sub{margin:0 0 26px;font-size:18px;line-height:1.9;color:var(--mut);font-weight:600}
-.status{display:inline-flex;align-items:center;gap:10px;padding:9px 22px;border-radius:30px;font-size:15px;font-weight:700;margin-bottom:28px;box-shadow:inset 4px 4px 9px var(--sd),inset -4px -4px 9px var(--sl)}
-.dot{width:10px;height:10px;border-radius:50%;background:#2ee59d;animation:pulse 1.4s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(46,229,157,.65)}100%{box-shadow:0 0 0 10px rgba(46,229,157,0)}}
-.btn{position:relative;display:block;overflow:hidden;padding:16px;border-radius:20px;font-size:21px;font-weight:800;color:var(--tx);text-decoration:none;background:var(--bg);box-shadow:7px 7px 16px var(--sd),-7px -7px 16px var(--sl);transition:.2s}
-.btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(90deg,transparent,rgba(0,242,254,.35),transparent);transform:skewX(-20deg);animation:shine 3.5s infinite}
-@keyframes shine{to{left:140%}}
-.btn:hover{color:var(--ac)}
-.btn:active{box-shadow:inset 5px 5px 11px var(--sd),inset -5px -5px 11px var(--sl)}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='enhance.css') }}">
 </head>
 <body>
-  <div class="card">
+<div class="page-center">
+  <div class="auth glass card">
     <div class="logo"><img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber Mirage"></div>
     <h1>Cyber Mirage</h1>
     <p class="sub">منصة ذكية للخداع السيبراني (Honeypot) لجذب واكتشاف وتحليل الأنشطة المشبوهة</p>
     <div class="status"><span class="dot"></span>المنصة تعمل وتراقب الآن</div>
     <a class="btn" href="{{ url_for('login') }}">الدخول إلى النظام</a>
   </div>
+</div>
+<script src="{{ url_for('static', filename='enhance.js') }}"></script>
+<script src="{{ url_for('static', filename='life.js') }}"></script>
 </body>
 </html>

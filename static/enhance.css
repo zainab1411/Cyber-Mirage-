@@ -1,0 +1,227 @@
+@import url("https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap");
+/* Cyber Mirage — enhance.css
+   أنيميشن للداشبورد + شكل المساعد العائم.
+   كل الأسماء تبدأ بـ cm- عشان ما تتعارض مع style.css و neo.css */
+
+/* ---------- ظهور تدريجي عند التمرير ---------- */
+@keyframes cm-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+.cm-reveal:not(.cm-in) { opacity: 0; }
+.cm-reveal.cm-in {
+  animation: cm-rise .7s cubic-bezier(.2, .7, .2, 1) var(--cm-d, 0ms) backwards;
+}
+
+/* ---------- توهج العنوان ---------- */
+@keyframes cm-glow {
+  0%, 100% { text-shadow: 0 0 6px rgba(0, 242, 254, .25); }
+  50%      { text-shadow: 0 0 18px rgba(0, 242, 254, .85), 0 0 36px rgba(0, 242, 254, .35); }
+}
+.cm-glow { animation: cm-glow 3.2s ease-in-out infinite; }
+
+/* ---------- نقطة "مباشر" ---------- */
+@keyframes cm-ping {
+  0%   { box-shadow: 0 0 0 0 rgba(46, 229, 157, .7); }
+  100% { box-shadow: 0 0 0 10px rgba(46, 229, 157, 0); }
+}
+.cm-live {
+  display: inline-block; width: 10px; height: 10px; margin-inline: 4px 8px;
+  border-radius: 50%; background: #2ee59d; vertical-align: middle;
+  animation: cm-ping 1.5s infinite;
+}
+
+/* ---------- سطر الكتابة التلقائية ---------- */
+.cm-tagline {
+  text-align: center; margin: 14px auto 4px; min-height: 1.6em;
+  font: 600 14px/1.6 "Scheherazade New", "Noto Naskh Arabic", Tahoma, Arial, sans-serif; letter-spacing: .6px; color: #7fa4d6;
+}
+.cm-tagline i {
+  display: inline-block; width: 2px; height: 1em; margin-inline-start: 3px;
+  background: #00f2fe; vertical-align: -2px; animation: cm-caret 1s steps(1) infinite;
+}
+@keyframes cm-caret { 50% { opacity: 0; } }
+
+/* ---------- البطاقات: ارتفاع + توهج عند المرور ---------- */
+.cards .card, body > .card {
+  transition: transform .25s ease, filter .25s ease;
+}
+.cards .card:hover, body > .card:hover {
+  transform: translateY(-5px);
+  filter: drop-shadow(0 8px 18px rgba(0, 242, 254, .22));
+}
+
+/* ---------- صفوف الجدول ---------- */
+@keyframes cm-row {
+  from { opacity: 0; transform: translateX(18px); }
+}
+.cm-row { animation: cm-row .45s ease var(--cm-d, 0ms) backwards; }
+#rows tr { transition: background .2s ease; }
+#rows tr:hover { background: rgba(0, 242, 254, .08); }
+
+/* ---------- الأزرار ---------- */
+.pagination button, #exportCsv, #resetFilters, #themeToggle {
+  transition: transform .2s ease, filter .2s ease;
+}
+.pagination button:hover, #exportCsv:hover, #resetFilters:hover, #themeToggle:hover {
+  transform: translateY(-2px); filter: brightness(1.18);
+}
+
+/* ---------- تنبيه النشاط المرتفع ---------- */
+@keyframes cm-shake { 25% { transform: translateX(-9px); } 75% { transform: translateX(9px); } }
+@keyframes cm-alert-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 90, 90, .0); }
+  50%      { box-shadow: 0 0 22px 2px rgba(255, 90, 90, .45); }
+}
+#alert { animation: cm-shake .5s, cm-alert-glow 1.8s ease-in-out infinite; }
+
+/* =====================================================
+   المساعد العائم
+   ===================================================== */
+.cm-fab {
+  position: fixed; left: 18px; bottom: 18px; z-index: 9999;
+  width: 58px; height: 58px; border: 0; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #06121f; background: linear-gradient(135deg, #00f2fe, #4d8dff);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45), 0 0 0 0 rgba(0, 242, 254, .6);
+  animation: cm-fab-pulse 2.8s infinite;
+  transition: transform .2s ease;
+}
+.cm-fab:hover { transform: scale(1.08); }
+.cm-fab svg { width: 28px; height: 28px; }
+@keyframes cm-fab-pulse {
+  0%   { box-shadow: 0 8px 22px rgba(0,0,0,.45), 0 0 0 0 rgba(0,242,254,.55); }
+  70%  { box-shadow: 0 8px 22px rgba(0,0,0,.45), 0 0 0 16px rgba(0,242,254,0); }
+  100% { box-shadow: 0 8px 22px rgba(0,0,0,.45), 0 0 0 0 rgba(0,242,254,0); }
+}
+
+.cm-chat {
+  position: fixed; left: 18px; bottom: 88px; z-index: 9999;
+  width: min(92vw, 380px); height: min(72vh, 540px);
+  display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 24px; background: #16223f; color: #f2f7ff;
+  font-family: "Scheherazade New", "Noto Naskh Arabic", Tahoma, Arial, sans-serif; font-weight: 600;
+  border: 1px solid rgba(0, 242, 254, .25);
+  box-shadow: 14px 14px 34px rgba(0, 0, 0, .55), -6px -6px 22px rgba(36, 54, 96, .5);
+  opacity: 0; visibility: hidden; transform: translateY(18px) scale(.96);
+  transform-origin: bottom left;
+  transition: opacity .25s ease, transform .25s ease, visibility .25s;
+}
+.cm-chat.cm-open { opacity: 1; visibility: visible; transform: none; }
+
+.cm-chat-head {
+  display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+  background: linear-gradient(90deg, rgba(0,242,254,.14), rgba(90,120,255,.14));
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+.cm-chat-head b { flex: 1; font-size: 18px; font-weight: 800; color: #00f2fe; }
+.cm-chat-dot { width: 10px; height: 10px; border-radius: 50%; background: #2ee59d; animation: cm-ping 1.5s infinite; }
+.cm-x { border: 0; background: transparent; color: #a9bbdd; font-size: 28px; line-height: 1; cursor: pointer; }
+.cm-x:hover { color: #fff; }
+
+.cm-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+.cm-msg {
+  max-width: 86%; padding: 10px 14px; border-radius: 18px; font-size: 17px; line-height: 1.8;
+  white-space: pre-wrap; word-break: break-word; animation: cm-pop .3s ease;
+}
+@keyframes cm-pop { from { opacity: 0; transform: translateY(8px) scale(.97); } }
+.cm-bot  { align-self: flex-start; background: #1f3058; border-bottom-right-radius: 6px; }
+.cm-user { align-self: flex-end; color: #04101c; background: linear-gradient(135deg, #00f2fe, #5aa0ff); border-bottom-left-radius: 6px; }
+
+.cm-dots span {
+  display: inline-block; width: 7px; height: 7px; margin: 0 2px; border-radius: 50%;
+  background: #a9bbdd; animation: cm-bounce 1s infinite;
+}
+.cm-dots span:nth-child(2) { animation-delay: .15s; }
+.cm-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes cm-bounce { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+.cm-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 14px 10px; }
+.cm-chips button {
+  border: 1px solid rgba(0, 242, 254, .35); background: rgba(0, 242, 254, .08); color: #d8f7ff;
+  padding: 6px 12px; border-radius: 16px; font: inherit; font-size: 15px; cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+.cm-chips button:hover { background: rgba(0, 242, 254, .2); transform: translateY(-2px); }
+
+.cm-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(255, 255, 255, .08); }
+.cm-form input {
+  flex: 1; min-width: 0; padding: 11px 14px; border: 0; border-radius: 16px; outline: 0;
+  background: #16223f; color: #f2f7ff; font: inherit; font-size: 18px;
+  box-shadow: inset 4px 4px 9px #0a1226, inset -4px -4px 9px #243660;
+}
+.cm-form input:focus { box-shadow: inset 4px 4px 9px #0a1226, inset -4px -4px 9px #243660, 0 0 0 2px #00f2fe; }
+.cm-form input::placeholder { color: #8ea3c9; }
+.cm-form button {
+  border: 0; border-radius: 16px; padding: 0 16px; cursor: pointer; font: inherit; font-weight: 800;
+  color: #04101c; background: linear-gradient(135deg, #00f2fe, #5aa0ff); transition: filter .2s ease;
+}
+.cm-form button:hover { filter: brightness(1.12); }
+
+@media (max-width: 480px) {
+  .cm-chat { left: 4vw; bottom: 84px; height: min(70vh, 520px); }
+  .cm-fab  { left: 14px; bottom: 14px; }
+}
+
+/* احترام من يفضّل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  .cm-glow, .cm-live, .cm-fab, .cm-chat-dot, .cm-dots span, #alert { animation: none !important; }
+  .cm-reveal:not(.cm-in) { opacity: 1; }
+  .cm-chat, .cm-msg { transition: none; animation: none; }
+}
+
+/* ===== الوضع النهاري للمساعد ===== */
+body.light-mode .cm-chat { background: #eef2fa; color: #1b2a4d; border-color: rgba(10, 123, 191, .35);
+  box-shadow: 12px 12px 30px rgba(120, 140, 180, .45), -6px -6px 20px rgba(255, 255, 255, .9); }
+body.light-mode .cm-chat-head { background: linear-gradient(90deg, rgba(10,123,191,.12), rgba(90,100,255,.10)); border-bottom-color: rgba(27, 42, 77, .10); }
+body.light-mode .cm-chat-head b { color: #0a7bbf; }
+body.light-mode .cm-x { color: #5a6d94; }
+body.light-mode .cm-x:hover { color: #1b2a4d; }
+body.light-mode .cm-bot { background: #dbe4f3; color: #1b2a4d; }
+body.light-mode .cm-dots span { background: #6c7ea3; }
+body.light-mode .cm-chips button { border-color: rgba(10, 123, 191, .4); background: rgba(10, 123, 191, .08); color: #0a5a8c; }
+body.light-mode .cm-chips button:hover { background: rgba(10, 123, 191, .18); }
+body.light-mode .cm-form { border-top-color: rgba(27, 42, 77, .10); }
+body.light-mode .cm-form input { background: #e6ecf7; color: #1b2a4d; box-shadow: inset 4px 4px 9px #c3cde0, inset -4px -4px 9px #ffffff; }
+body.light-mode .cm-form input:focus { box-shadow: inset 4px 4px 9px #c3cde0, inset -4px -4px 9px #ffffff, 0 0 0 2px #0a7bbf; }
+body.light-mode .cm-form input::placeholder { color: #6c7ea3; }
+body.light-mode .cm-tagline { color: #3a5f94; }
+
+/* =====================================================
+   ألوان هادئة (بدون توهج) — تُطبَّق على كل الصفحات
+   ===================================================== */
+:root { --bg: #1c2636; --sd: #121a26; --sl: #283549; --ac: #8fb8c9; --tx: #e9eef4; --mut: #9fb0c4; }
+html::before { background: rgba(143, 184, 201, .08) !important; animation: none !important; }
+html::after  { background: rgba(120, 135, 185, .10) !important; animation: none !important; }
+.logo::before, .logo::after, .btn::after { display: none !important; }
+.dot { animation: none !important; box-shadow: none !important; background: #8fc9a8 !important; }
+.cm-glow { animation: none !important; text-shadow: none !important; }
+.cm-live, .cm-chat-dot { animation: none !important; background: #8fc9a8; }
+.cm-tagline { color: #8da3bd; }
+.cm-tagline i { background: #8fb8c9; }
+.cards .card:hover, body > .card:hover { filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .22)); }
+#rows tr:hover { background: rgba(143, 184, 201, .07); }
+#alert { animation: cm-shake .5s !important; box-shadow: none !important; }
+.cm-fab { color: #14202e; background: #8fb8c9; box-shadow: 0 6px 16px rgba(0, 0, 0, .3); animation: none; }
+.cm-chat { border-color: rgba(143, 184, 201, .22); box-shadow: 10px 10px 28px rgba(0, 0, 0, .4); background: #1c2636; }
+.cm-chat-head { background: rgba(143, 184, 201, .08); }
+.cm-chat-head b { color: #cfe0ea; }
+.cm-bot { background: #263449; }
+.cm-user, .cm-form button { background: #8fb8c9; color: #14202e; }
+.cm-chips button { border-color: rgba(143, 184, 201, .3); background: rgba(143, 184, 201, .07); color: #cfe0ea; }
+.cm-chips button:hover { background: rgba(143, 184, 201, .15); }
+.cm-form input { background: #1c2636; box-shadow: inset 4px 4px 9px #121a26, inset -4px -4px 9px #283549; }
+.cm-form input:focus { box-shadow: inset 4px 4px 9px #121a26, inset -4px -4px 9px #283549, 0 0 0 1px #8fb8c9; }
+
+/* النهاري */
+body.light-mode .cm-fab { background: #6f9bb0; color: #fff; }
+body.light-mode .cm-chat { background: #eef1f6; border-color: rgba(79, 127, 150, .3); box-shadow: 10px 10px 26px rgba(120, 135, 160, .35); }
+body.light-mode .cm-chat-head b { color: #3e6980; }
+body.light-mode .cm-user, body.light-mode .cm-form button { background: #6f9bb0; color: #fff; }
+body.light-mode .cm-chips button { border-color: rgba(79, 127, 150, .35); background: rgba(79, 127, 150, .07); color: #3e6980; }
+body.light-mode .cm-form input:focus { box-shadow: inset 4px 4px 9px #c3cde0, inset -4px -4px 9px #ffffff, 0 0 0 1px #4f7f96; }
+body.light-mode .cm-tagline { color: #5b7390; }
+body.light-mode .cm-dots span { background: #8a9ab0; }
+
+/* خط النسخ لكل الصفحات */
+body, button, input, textarea, select, table { font-family: "Scheherazade New", "Noto Naskh Arabic", Tahoma, Arial, sans-serif !important; }

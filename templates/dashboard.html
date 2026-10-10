@@ -2,86 +2,146 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cyber-Mirage</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='neo.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='enhance.css') }}">
 </head>
 <body>
 
-  <div class="header">
-    <div class="header-title" style="display: flex; align-items: center; gap: 12px;">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber-Mirage Logo" style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
-      <span style="font-size: 20px; font-weight: bold; color: #00f2fe;">Cyber-Mirage</span>
+<div class="shell">
+
+  <div class="header glass">
+    <div class="header-title">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Cyber-Mirage Logo">
+      <div>
+        <span>Cyber-Mirage</span>
+        <small>لوحة مراقبة الخداع السيبراني</small>
+      </div>
     </div>
-    
     <!-- زر الوضع الليلي والنهاري (يتم إدارته عبر script.js) -->
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <button id="themeToggle" style="padding: 5px 12px; border-radius: 6px; background: #333; color: #fff; border: 1px solid #555; cursor: pointer; font-size: 13px;">☀️ وضع نهاري</button>
+    <div class="header-tools">
       <span class="updated" id="updated">آخر تحديث: قبل لحظات</span>
+      <button id="themeToggle" type="button">☀️ وضع نهاري</button>
     </div>
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <p class="card-label">إجمالي المحاولات</p>
-      <p class="card-value" id="total">--</p>
+  <main class="grid">
+
+    <div class="cards">
+      <div class="g card hero">
+        <p class="card-label">إجمالي المحاولات</p>
+        <p class="card-value" id="total">--</p>
+        <p class="sub">توزيع المحاولات على ساعات اليوم</p>
+        <svg class="spark" id="cmSpark" viewBox="0 0 240 74" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+
+      <div class="g card ipcard">
+        <p class="card-label">تكرارًا IP أكثر</p>
+        <p class="card-value" id="topip">--</p>
+        <div class="alert" id="alert" style="display:none;">⚠️ نشاط مرتفع من IP واحد خلال آخر 10 دقائق</div>
+        <a class="livebtn" href="/live" target="_blank"><i></i>فتح شاشة المحاولات الحية</a>
+      </div>
     </div>
-    <div class="card">
-      <p class="card-label">تكرارًا IP أكثر</p>
-      <p class="card-value" id="topip">--</p>
+
+    <div class="g radarcard">
+      <h3>رادار الرصد</h3>
+      <div id="cmRadarBox"></div>
+      <small class="cap" id="cmRadarCap">بانتظار البيانات...</small>
     </div>
-  </div>
 
-  <div class="alert" id="alert" style="display:none;">
-    ⚠️ نشاط مرتفع من IP واحد خلال آخر 10 دقائق
-  </div>
+    <div class="g hourscard">
+      <h3>الهجمات حسب الساعة</h3>
+      <div class="bars" id="cmBars"></div>
+      <div class="hlabels"><span>00</span><span>06</span><span>12</span><span>18</span><span>23</span></div>
+    </div>
 
-  <div style="max-width:600px; margin:20px auto; text-align:center;">
-    <a href="/live" target="_blank" style="display:inline-block; padding:12px 24px; border-radius:10px; border:1px solid rgba(0,242,254,0.4); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; text-decoration:none; font-weight:bold;">🔴 فتح شاشة المحاولات الحية</a>
-  </div>
+    <div class="g countrycard">
+      <h3>الدول المهاجمة</h3>
+      <div class="pie-wrap"><canvas id="countryChart"></canvas></div>
+      <ul id="topCountriesList"></ul>
+    </div>
 
-  <div class="card" style="max-width:400px; margin:20px auto;">
-    <p class="card-label">نسبة الهجمات حسب الدولة</p>
-    <canvas id="countryChart"></canvas>
-  </div>
+    <div class="g ipscard">
+      <h3>أكثر العناوين نشاطًا</h3>
+      <div id="cmIps"></div>
+    </div>
 
-  <div class="card" style="max-width:400px; margin:20px auto;">
-    <p class="card-label">أعلى 3 دول هجوماً</p>
-    <ul id="topCountriesList" style="list-style: none; padding: 0; text-align: right; margin-top: 10px;">
-    </ul>
-  </div>
+    <div class="g quickcard">
+      <h3>أرقام سريعة</h3>
+      <div class="tiles">
+        <div class="tile"><span>عناوين فريدة</span><b id="cmUnique">--</b></div>
+        <div class="tile"><span>ذروة النشاط</span><b id="cmPeak">--</b></div>
+        <div class="tile"><span>أكثر دولة</span><b id="cmTopCountry">--</b></div>
+        <div class="tile"><span>أعلى عدد بالساعة</span><b id="cmPeakCount">--</b></div>
+        <div class="tile"><span>متوسط الساعة</span><b id="cmAvg">--</b></div>
+      </div>
+    </div>
 
-  <div class="card" style="max-width:600px; margin:20px auto; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-    <input type="text" id="searchIp" placeholder="ابحث بعنوان IP..." style="flex:1; min-width:150px; padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
-    <input type="text" id="dateFrom" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
-    <input type="text" id="dateTo" placeholder="يوم/شهر/سنة (مثال: 15/09/2026)" dir="ltr" style="padding:8px; border-radius:6px; border:1px solid #444; background:#1e1e1e; color:#fff;">
-    <button id="resetFilters" style="padding:8px 14px; border-radius:6px; border:none; background:#555; color:#fff; cursor:pointer;">إعادة تعيين</button>
-  </div>
+    <div class="g tablecard">
+      <h3>سجل المحاولات</h3>
+      <div class="filters">
+        <input type="text" id="searchIp" placeholder="ابحث بعنوان IP...">
+        <input type="text" id="dateFrom" placeholder="من: يوم/شهر/سنة" dir="ltr">
+        <input type="text" id="dateTo" placeholder="إلى: يوم/شهر/سنة" dir="ltr">
+        <button id="resetFilters" type="button">إعادة تعيين</button>
+        <button id="exportCsv" type="button">⬇️ تصدير CSV</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-sort="ip">عنوان IP ⇅</th>
+              <th data-sort="username">اسم المستخدم ⇅</th>
+              <th data-sort="time">الوقت ⇅</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination">
+        <button id="prevBtn" type="button">السابق ‹</button>
+        <span id="pageInfo">صفحة 1</span>
+        <button id="nextBtn" type="button">› التالي</button>
+      </div>
+    </div>
 
-  <div style="max-width:600px; margin:0 auto 16px; text-align:left;">
-    <button id="exportCsv" style="padding:8px 14px; border-radius:8px; border:1px solid rgba(0,242,254,0.3); background:linear-gradient(90deg,#00f2fe22,#b967ff22); color:#fff; cursor:pointer;">⬇️ تصدير CSV</button>
-  </div>
-
-  <table style="width:100%; max-width:600px; margin:0 auto; border-collapse:collapse;">
-    <thead>
-      <tr>
-        <th data-sort="ip" style="cursor:pointer; padding:10px; text-align:right;">عنوان IP ⇅</th>
-        <th data-sort="username" style="cursor:pointer; padding:10px; text-align:right;">اسم المستخدم ⇅</th>
-        <th data-sort="time" style="cursor:pointer; padding:10px; text-align:right;">الوقت ⇅</th>
-      </tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
-
-  <div class="pagination" id="pagination">
-    <button id="prevBtn">السابق ‹</button>
-    <span id="pageInfo">صفحة 1</span>
-    <button id="nextBtn">› التالي</button>
-  </div>
+  </main>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    /* ألوان هادئة للرسم البياني (قبل تشغيل script.js) */
+    (function () {
+      if (!window.Chart) return;
+      function paint() {
+        var light = document.body.classList.contains("light-mode");
+        Chart.defaults.color = light ? "#4b5b73" : "#b9c5d8";
+        Chart.defaults.font.size = 15;
+        Chart.defaults.font.family = "Scheherazade New, Noto Naskh Arabic, Tahoma, Arial, sans-serif";
+        Chart.defaults.borderColor = "rgba(128,140,160,.2)";
+        if (Chart.defaults.plugins && Chart.defaults.plugins.colors) Chart.defaults.plugins.colors.enabled = false;
+        Chart.defaults.datasets.pie.backgroundColor = light
+          ? ["#3f6fb0", "#c27a4f", "#4a9c7b", "#7a62bd", "#b79a45"]
+          : ["#8db4ee", "#e6a883", "#8fcfae", "#b5a2e6", "#e0c27a"];
+        Chart.defaults.datasets.pie.borderWidth = 0;
+        Chart.defaults.plugins.legend.position = "bottom";
+      }
+      paint();
+      new MutationObserver(function () {
+        paint();
+        try { Object.keys(Chart.instances).forEach(function (k) { Chart.instances[k].update(); }); } catch (e) {}
+      }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    })();
+  </script>
   <!-- ملف الجافا سكريبت الخارجي الذي يحتوي على دالة initThemeToggle() وكود الجداول -->
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <!-- بطاقات الرادار والساعات والعناوين -->
+  <script src="{{ url_for('static', filename='widgets.js') }}"></script>
+  <!-- الأنيميشن + المساعد العائم (يشتغل فوق script.js بدون ما يغيّره) -->
+  <script src="{{ url_for('static', filename='enhance.js') }}"></script>
+  <!-- الخلفية الحيّة -->
+  <script src="{{ url_for('static', filename='life.js') }}"></script>
 </body>
 </html>
