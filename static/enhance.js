@@ -176,7 +176,7 @@
       a: "نصائح سريعة: كلمة مرور طويلة وفريدة لكل حساب، فعّلي التحقق بخطوتين، ولا تدخلين بياناتك في روابط ما تثقين فيها. وغيّري أي كلمة مرور شاركتيها مع أحد." },
 
     { any: ["دعم", "مشكله", "عطل", "خطا", "ما يشتغل", "تواصل", "مساعده", "support"],
-      a: "إذا واجهتي مشكلة: اكتبي لي وصفها هنا بالتفصيل، أو تواصلي مع قائدة الفريق زينب المدحمي، أو افتحي Issue في مستودع المشروع على GitHub (zainab1411/Cyber-Mirage-)." }
+      a: "إذا واجهتي مشكلة:راسلي الفريق مباشرة من الزر اللي تحت." }
   ];
 
   var FALLBACK = "ما فهمت سؤالك تمامًا 🤔 جرّبي أحد الأسئلة اللي تحت، أو اكتبي «دعم» وأوجهك للتواصل مع الفريق.";
@@ -210,6 +210,28 @@
   }
 
   var ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3zm-4 8h8v1.8H8V10zm0 3.2h5v1.8H8v-1.8z"/></svg>';
+
+  var SUPPORT_EMAIL = "cyber.mirage2026@gmail.com";
+  var MAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>';
+
+  // يضيف بطاقة "راسلي الفريق" (ظرف) تفتح كتابة رسالة للإيميل مباشرة
+  function maybeMail(msgsBox, txt) {
+    if (txt.indexOf(SUPPORT_EMAIL) === -1 && txt.indexOf("راسلي الفريق") === -1) return;
+    var a = document.createElement("a");
+    a.className = "cm-mail";
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.href = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(SUPPORT_EMAIL) +
+             "&su=" + encodeURIComponent("دعم Cyber Mirage");
+    var ic = document.createElement("span"); ic.className = "cm-mail-ic"; ic.innerHTML = MAIL_ICON;   // أيقونة ثابتة من عندنا
+    var tx = document.createElement("span"); tx.className = "cm-mail-tx";
+    var b = document.createElement("b"); b.textContent = "راسلي الفريق";
+    var em = document.createElement("small"); em.textContent = SUPPORT_EMAIL;
+    tx.appendChild(b); tx.appendChild(em);
+    a.appendChild(ic); a.appendChild(tx);
+    msgsBox.appendChild(a);
+    msgsBox.scrollTop = msgsBox.scrollHeight;
+  }
 
   function initAssistant() {
     var fab = document.createElement("button");
@@ -267,6 +289,7 @@
       ask(q).then(function (txt) {
         wait.classList.remove("cm-dots");
         wait.textContent = txt;
+        maybeMail(msgs, txt);
         msgs.scrollTop = msgs.scrollHeight;
         busy = false;
       });
